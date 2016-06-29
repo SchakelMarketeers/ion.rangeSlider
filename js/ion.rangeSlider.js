@@ -1458,50 +1458,6 @@
 
                 this.calcLabels();
 
-                var min = Math.min(this.labels.p_single_left, this.labels.p_from_left),
-                    single_left = this.labels.p_single_left + this.labels.p_single_fake,
-                    to_left = this.labels.p_to_left + this.labels.p_to_fake,
-                    max = Math.max(single_left, to_left);
-
-                if (this.labels.p_from_left + this.labels.p_from_fake >= this.labels.p_to_left) {
-                    this.$cache.from[0].style.visibility = "hidden";
-                    this.$cache.to[0].style.visibility = "hidden";
-                    this.$cache.single[0].style.visibility = "visible";
-
-                    if (this.result.from === this.result.to) {
-                        if (this.target === "from") {
-                            this.$cache.from[0].style.visibility = "visible";
-                        } else if (this.target === "to") {
-                            this.$cache.to[0].style.visibility = "visible";
-                        } else if (!this.target) {
-                            this.$cache.from[0].style.visibility = "visible";
-                        }
-                        this.$cache.single[0].style.visibility = "hidden";
-                        max = to_left;
-                    } else {
-                        this.$cache.from[0].style.visibility = "hidden";
-                        this.$cache.to[0].style.visibility = "hidden";
-                        this.$cache.single[0].style.visibility = "visible";
-                        max = Math.max(single_left, to_left);
-                    }
-                } else {
-                    this.$cache.from[0].style.visibility = "visible";
-                    this.$cache.to[0].style.visibility = "visible";
-                    this.$cache.single[0].style.visibility = "hidden";
-                }
-
-                if (min < this.labels.p_min + 1) {
-                    this.$cache.min[0].style.visibility = "hidden";
-                } else {
-                    this.$cache.min[0].style.visibility = "visible";
-                }
-
-                if (max > 100 - this.labels.p_max - 1) {
-                    this.$cache.max[0].style.visibility = "hidden";
-                } else {
-                    this.$cache.max[0].style.visibility = "visible";
-                }
-
             }
         },
 
@@ -2179,28 +2135,6 @@
             }
         },
 
-        // Collisions Calc Beta
-        // TODO: Refactor then have plenty of time
-        calcGridCollision: function (step, start, finish) {
-            var i, next_i, label,
-                num = this.coords.big_num;
-
-            for (i = 0; i < num; i += step) {
-                next_i = i + (step / 2);
-                if (next_i >= num) {
-                    break;
-                }
-
-                label = this.$cache.grid_labels[next_i][0];
-
-                if (finish[i] <= start[next_i]) {
-                    label.style.visibility = "visible";
-                } else {
-                    label.style.visibility = "hidden";
-                }
-            }
-        },
-
         calcGridMargin: function () {
             if (!this.options.grid_margin) {
                 return;
@@ -2222,7 +2156,6 @@
             this.$cache.grid[0].style.width = this.toFixed(100 - this.coords.p_handle) + "%";
             this.$cache.grid[0].style.left = this.coords.grid_gap + "%";
         },
-
 
 
         // =============================================================================================================
